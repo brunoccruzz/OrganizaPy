@@ -3,11 +3,12 @@ import sqlite3
 def conectar():
     return sqlite3.connect("organizapy.db")
 
-def criartabela():
+def criartabela(): #Cria tabela dentro do banco de dados
     conexao = conectar()
     cursor= conexao.cursor()
 
-    cursor.execute('''
+#Criação da tabela usuarios
+    cursor.execute(''' 
     CREATE TABLE IF NOT EXISTS usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
@@ -15,7 +16,7 @@ def criartabela():
     senha TEXT NOT NULL 
     )
     ''')
-
+#Crição da tabela tarefas
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS tarefas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

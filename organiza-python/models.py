@@ -1,4 +1,5 @@
 
+#Modelo da classe usuario
 class Usuario:
     def __init__(
         self,
@@ -12,7 +13,7 @@ class Usuario:
 
 
 
-
+#Modelo da classe tarefa
 class Tarefa:
     def __init__(
             self,
