@@ -38,15 +38,19 @@ def listar_tarefas(usuario_id):
 
 def concluir_tarefa(id_tarefa, usuario_id):
     try:
-        conexao=conectar()
-        cursor=conexao.cursor()
+        conexao = conectar()
+        cursor = conexao.cursor()
 
-        cursor.execute("UPDATE tarefas SET concluida=1 WHERE id=? AND usuario_id =?",(id_tarefa,usuario_id))
+        cursor.execute(
+            "UPDATE tarefas SET concluida = 1 WHERE id = ? AND usuario_id = ?",
+            (id_tarefa, usuario_id)
+        )
         conexao.commit()
-        return True
+        return cursor.rowcount > 0
 
     except Exception as e:
-        print("Erro ao excluir tarefa")
+        print(f"Erro ao concluir tarefa: {e}")
+        return False
 
     finally:
         if 'conexao' in locals():
@@ -55,24 +59,44 @@ def concluir_tarefa(id_tarefa, usuario_id):
 
 def excluir_tarefa(id_tarefa, usuario_id):
     try:
-        conexao=conectar()
-        cursor=conexao.cursor()
+        conexao = conectar()
+        cursor = conexao.cursor()
 
-        cursor.execute("DELETE FROM tarefas WHERE id = ? AND usuario_id = ?",
-        (id_tarefa, usuario_id)
+        cursor.execute(
+            "DELETE FROM tarefas WHERE id = ? AND usuario_id = ?",
+            (id_tarefa, usuario_id)
         )
         conexao.commit()
-        return True
+        return cursor.rowcount > 0
 
     except Exception as e:
-        print("Erro ao desmarcar tarefa")
+        print(f"Erro ao excluir tarefa: {e}")
+        return False
 
     finally:
         if 'conexao' in locals():
             conexao.close()
 
 
+def desmarcar_tarefa(id_tarefa, usuario_id):
+    try:
+        conexao = conectar()
+        cursor = conexao.cursor()
 
+        cursor.execute(
+            "UPDATE tarefas SET concluida = 0 WHERE id = ? AND usuario_id = ?",
+            (id_tarefa, usuario_id)
+        )
+        conexao.commit()
+        return cursor.rowcount > 0
+
+    except Exception as e:
+        print(f"Erro ao desmarcar tarefa: {e}")
+        return False
+
+    finally:
+        if 'conexao' in locals():
+            conexao.close()
 
 
 
