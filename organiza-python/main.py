@@ -1,5 +1,10 @@
 from auth import registrar, login
 from tasks import criar_tarefa, excluir_tarefa, listar_tarefas, concluir_tarefa, desmarcar_tarefa
+from rich.console import Console
+from rich.table import Table
+
+console = Console()
+
 
 def menu_principal():
     while True:
@@ -43,16 +48,23 @@ def menuapp(id_logado):
 
         elif resposta == "2":
             tarefas = listar_tarefas(id_logado)
+
             if not tarefas:
-                print("📭 Nenhuma tarefa cadastrada.")
+                console.print("[yellow]📭 Nenhuma tarefa cadastrada.[/yellow]")
             else:
-                for t in tarefas:
-                    descricao = t[2] if t[2] else "Sem descrição"
-                    status = "✅ Concluída" if t[3] == 1 else "❌ Não concluída"
-                    print(f"\nID: {t[0]}")
-                    print(f"Título: {t[1]}")
-                    print(f"Descrição: {descricao}")
-                    print(f"Status: {status}")
+                table = Table(title="📋 Suas Tarefas")
+                table.add_column("ID", justify="right")
+                table.add_column("Título")
+                table.add_column("Descrição")
+                table.add_column("Status")
+
+            for t in tarefas:
+                descricao = t[2] if t[2] else "Sem descrição"
+                status = "[green]✅ Concluída[/green]" if t[3] == 1 else "[red]❌ Pendente[/red]"
+                table.add_row(str(t[0]), t[1], descricao, status)
+
+            console.print(table)
+
 
         elif resposta == "3":
             try:
