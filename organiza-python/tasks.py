@@ -13,9 +13,11 @@ def criar_tarefa(titulo, usuario_id,descricao:str=None):
                        (titulo, usuario_id,descricao))
         conexao.commit()
         print(f"Tarefa {titulo} registrada com sucesso!")
+        return True
 
     except Exception as e: #se der erro
         print(f"❌ Erro ao criar tarefa: {e}")
+        return False
 
     finally:
         if 'conexao' in locals():
@@ -68,6 +70,7 @@ def excluir_tarefa(id_tarefa, usuario_id):
             (id_tarefa, usuario_id)
         )
         conexao.commit()
+
         return cursor.rowcount > 0 #checa quantas linhas foram afetadas
 
     except Exception as e:
